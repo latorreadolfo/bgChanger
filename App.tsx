@@ -5,33 +5,35 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ImageBackground,
 } from 'react-native';
 
-function App(): JSX.Element {
-  const [randomBackground, setRandomBackground] = useState('#ffffff');
+const App = () => {
+  const [backgroundImage, setBackgroundImage] = useState(
+    'https://picsum.photos/600/1200',
+  );
 
-  const generateColor = () => {
-    const hexRange = '0123456789ABCDEF';
-    let color = '#';
-
-    for (let i = 0; i < 6; i++) {
-      color += hexRange[Math.floor(Math.random() * 16)];
-    }
-    setRandomBackground(color);
+  const changeBackgroundImage = () => {
+    setBackgroundImage(
+      `https://picsum.photos/600/1200?random=${Math.random()}`,
+    );
   };
+
   return (
     <>
-      <StatusBar backgroundColor={randomBackground} />
-      <View style={[styles.container, {backgroundColor: randomBackground}]}>
-        <TouchableOpacity onPress={generateColor}>
-          <View style={styles.actionBtn}>
-            <Text style={styles.actionBtnTxt}>Press Me</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <ImageBackground style={styles.imgBg} source={{uri: backgroundImage}}>
+        <StatusBar backgroundColor={'transparent'} />
+        <View style={[styles.container, {backgroundColor: 'transparent'}]}>
+          <TouchableOpacity onPress={changeBackgroundImage}>
+            <View style={styles.actionBtn}>
+              <Text style={styles.actionBtnTxt}>Press Me</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -39,9 +41,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  imgBg: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   actionBtn: {
     borderRadius: 12,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     paddingVertical: 10,
     paddingHorizontal: 40,
     borderColor: '#FFFFFF',
